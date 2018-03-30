@@ -1,0 +1,7 @@
+# Common editor swap and backup files
+*~
+*\#*
+*.swp
+
+# Common build output directory
+build/
