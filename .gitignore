@@ -5,3 +5,10 @@
 
 # Common build output directory
 build/
+
+# Managed by npm install
+node_modules/
+
+# binki disagrees with including this file especially because it is a
+# source of churn.
+package-lock.json
