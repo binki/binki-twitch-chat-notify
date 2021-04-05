@@ -12,7 +12,6 @@
           const currentText = target.lastChild.textContent;
           if (currentText !== lastSeenText) {
             lastSeenText = currentText;
-            console.log(target.lastChild, target.lastChild.textContent);
             new window.Notification(currentText);
           }
           break;
