@@ -22,7 +22,8 @@
     childList: true,
   });
   const b = document.createElement('button');
-  b.setAttribute('style', 'position: absolute; z-index: 1; background: rgba(0,0,0,0.5);');
+  // Need z-index greater than 1000 because Twitch (non-mod) uses a z-index of 1000.ㅋㅋㅋ
+  b.setAttribute('style', 'position: absolute; z-index: 1001; background: rgba(0,0,0,0.5);');
   b.textContent='Unnotify';
   b.onclick=() => {
     b.remove();
