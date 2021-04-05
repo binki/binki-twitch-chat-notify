@@ -6,7 +6,6 @@
   let lastSeenText = '';
   const mo = new MutationObserver(mutations => {
     for (const mutation of mutations) {
-    console.log('mutation', mutation);
       switch (mutation.type) {
         case 'childList': {
           const currentText = target.lastChild.textContent;
