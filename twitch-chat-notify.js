@@ -12,6 +12,10 @@
           const currentText = target.lastChild.textContent;
           if (currentText !== lastSeenText) {
             lastSeenText = currentText;
+            // Some people might claim that document.hidden is sufficient. However, with my workflow,
+            // I never minimize windows even if they are not actually visible to me. So I need to use
+            // blur. If an API telling me that some component is actually on-screen instead of covered
+            // is available, let me know!
             if (window.document.hidden || isBlurred) {
               new window.Notification(currentText);
             }
