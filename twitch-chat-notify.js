@@ -41,9 +41,9 @@
             break;
           }
         }
-      } catch (ex) {
-        console.error(ex);
       }
+    } catch (ex) {
+      console.error(ex);
     }
   });
   const cleanups = [];
