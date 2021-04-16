@@ -44,6 +44,7 @@
       }
     } catch (ex) {
       console.error(ex);
+      console.error('mutations', mutations);
     }
   });
   const cleanups = [];
