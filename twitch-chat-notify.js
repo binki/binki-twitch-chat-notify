@@ -6,39 +6,43 @@
   let lastSeenText = '';
   let isBlurred = false;
   const mo = new MutationObserver(mutations => {
-    for (const mutation of mutations) {
-      switch (mutation.type) {
-        case 'childList': {
-          const lineElement = target.lastChild;
-          const currentText = lineElement.textContent;
-          if (currentText !== lastSeenText) {
-            lastSeenText = currentText;
-            // Some people might claim that document.hidden is sufficient. However, with my workflow,
-            // I never minimize windows even if they are not actually visible to me. So I need to use
-            // blur. If an API telling me that some component is actually on-screen instead of covered
-            // is available, let me know!
-            if (window.document.hidden || isBlurred) {
-              // Extract slightly nicer formatted message.
-              const timeStampElement = lineElement.querySelector('[data-test-selector=chat-timestamp]');
-              // If the timeStampElement doesn’t exist, it probably isn’t a message.
-              if (timeStampElement) {
-                const timeStamp = timeStampElement.textContent;
-                // has srcset which we could parse instead of using src
-                const badgeElement = lineElement.querySelector('img.chat-badge');
-                const badgeSrc = badgeElement === null ? undefined : badgeElement.src;
-                const userName = lineElement.querySelector('[data-test-selector=message-username]').textContent;
-                const messageText = lineElement.querySelector('[data-a-target=chat-message-text]').textContent;
-                const avatarElement = document.querySelector('.channel-info-content .tw-image-avatar, .mosaic-root .tw-image-avatar');
-                const avatarSrc = avatarElement === null ? undefined : avatarElement.src;
-                const notification = new window.Notification(`${timeStamp} <${userName}> ${messageText}`, {
-                  image: badgeSrc,
-                  icon: avatarSrc,
-                });
+    try {
+      for (const mutation of mutations) {
+        switch (mutation.type) {
+          case 'childList': {
+            const lineElement = target.lastChild;
+            const currentText = lineElement.textContent;
+            if (currentText !== lastSeenText) {
+              lastSeenText = currentText;
+              // Some people might claim that document.hidden is sufficient. However, with my workflow,
+              // I never minimize windows even if they are not actually visible to me. So I need to use
+              // blur. If an API telling me that some component is actually on-screen instead of covered
+              // is available, let me know!
+              if (window.document.hidden || isBlurred) {
+                // Extract slightly nicer formatted message.
+                const timeStampElement = lineElement.querySelector('[data-test-selector=chat-timestamp]');
+                // If the timeStampElement doesn’t exist, it probably isn’t a message.
+                if (timeStampElement) {
+                  const timeStamp = timeStampElement.textContent;
+                  // has srcset which we could parse instead of using src
+                  const badgeElement = lineElement.querySelector('img.chat-badge');
+                  const badgeSrc = badgeElement === null ? undefined : badgeElement.src;
+                  const userName = lineElement.querySelector('[data-test-selector=message-username]').textContent;
+                  const messageText = lineElement.querySelector('[data-a-target=chat-message-text]').textContent;
+                  const avatarElement = document.querySelector('.channel-info-content .tw-image-avatar, .mosaic-root .tw-image-avatar');
+                  const avatarSrc = avatarElement === null ? undefined : avatarElement.src;
+                  const notification = new window.Notification(`${timeStamp} <${userName}> ${messageText}`, {
+                    image: badgeSrc,
+                    icon: avatarSrc,
+                  });
+                }
               }
             }
+            break;
           }
-          break;
         }
+      } catch (ex) {
+        console.error(ex);
       }
     }
   });
