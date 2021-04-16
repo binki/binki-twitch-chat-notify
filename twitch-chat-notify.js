@@ -19,18 +19,22 @@
             // is available, let me know!
             if (window.document.hidden || isBlurred) {
               // Extract slightly nicer formatted message.
-              const timeStamp = lineElement.querySelector('[data-test-selector=chat-timestamp]').textContent;
-              // has srcset which we could parse instead of using src
-              const badgeElement = lineElement.querySelector('img.chat-badge');
-              const badgeSrc = badgeElement === null ? undefined : badgeElement.src;
-              const userName = lineElement.querySelector('[data-test-selector=message-username]').textContent;
-              const messageText = lineElement.querySelector('[data-a-target=chat-message-text]').textContent;
-              const avatarElement = document.querySelector('.channel-info-content .tw-image-avatar, .mosaic-root .tw-image-avatar');
-              const avatarSrc = avatarElement === null ? undefined : avatarElement.src;
-              const notification = new window.Notification(`${timeStamp} <${userName}> ${messageText}`, {
-                image: badgeSrc,
-                icon: avatarSrc,
-              });
+              const timeStampElement = lineElement.querySelector('[data-test-selector=chat-timestamp]');
+              // If the timeStampElement doesn’t exist, it probably isn’t a message.
+              if (timeStampElement) {
+                const timeStamp = timeStampElement.textContent;
+                // has srcset which we could parse instead of using src
+                const badgeElement = lineElement.querySelector('img.chat-badge');
+                const badgeSrc = badgeElement === null ? undefined : badgeElement.src;
+                const userName = lineElement.querySelector('[data-test-selector=message-username]').textContent;
+                const messageText = lineElement.querySelector('[data-a-target=chat-message-text]').textContent;
+                const avatarElement = document.querySelector('.channel-info-content .tw-image-avatar, .mosaic-root .tw-image-avatar');
+                const avatarSrc = avatarElement === null ? undefined : avatarElement.src;
+                const notification = new window.Notification(`${timeStamp} <${userName}> ${messageText}`, {
+                  image: badgeSrc,
+                  icon: avatarSrc,
+                });
+              }
             }
           }
           break;
