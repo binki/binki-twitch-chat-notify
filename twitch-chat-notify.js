@@ -9,7 +9,8 @@
     for (const mutation of mutations) {
       switch (mutation.type) {
         case 'childList': {
-          const currentText = target.lastChild.textContent;
+          const lineElement = target.lastChild;
+          const currentText = lineElement.textContent;
           if (currentText !== lastSeenText) {
             lastSeenText = currentText;
             // Some people might claim that document.hidden is sufficient. However, with my workflow,
@@ -17,7 +18,19 @@
             // blur. If an API telling me that some component is actually on-screen instead of covered
             // is available, let me know!
             if (window.document.hidden || isBlurred) {
-              new window.Notification(currentText);
+              // Extract slightly nicer formatted message.
+              const timeStamp = lineElement.querySelector('[data-test-selector=chat-timestamp]').textContent;
+              // has srcset which we could parse instead of using src
+              const badgeElement = lineElement.querySelector('img.chat-badge');
+              const badgeSrc = badgeElement === null ? undefined : badgeElement.src;
+              const userName = lineElement.querySelector('[data-test-selector=message-username]').textContent;
+              const messageText = lineElement.querySelector('[data-a-target=chat-message-text]').textContent;
+              const avatarElement = document.querySelector('.channel-info-content .tw-image-avatar, .mosaic-root .tw-image-avatar');
+              const avatarSrc = avatarElement === null ? undefined : avatarElement.src;
+              const notification = new window.Notification(`${timeStamp} <${userName}> ${messageText}`, {
+                image: badgeSrc,
+                icon: avatarSrc,
+              });
             }
           }
           break;
