@@ -28,7 +28,14 @@
                   const badgeElement = lineElement.querySelector('img.chat-badge');
                   const badgeSrc = badgeElement === null ? undefined : badgeElement.src;
                   const userName = lineElement.querySelector('[data-test-selector=message-username]').textContent;
-                  const messageText = lineElement.querySelector('[data-a-target=chat-message-text]').textContent;
+                  const chatMessageSeparatorElement = lineElement.querySelector('[data-test-selector=chat-message-separator]');
+                  const messageText = (function concatMessage(currentElement) {
+                    if (currentElement === null) return '';
+                    return (() => {
+                      const foundImage = currentElement.querySelector('img.chat-image');
+                      return foundImage ? ` ${foundImage.alt} ` : currentElement.textContent;
+                    })() + concatMessage(currentElement.nextSibling);
+                  })(chatMessageSeparatorElement.nextSibling);
                   const avatarElement = document.querySelector('.channel-info-content .tw-image-avatar, .mosaic-root .tw-image-avatar');
                   const avatarSrc = avatarElement === null ? undefined : avatarElement.src;
                   const notification = new window.Notification(`${timeStamp} <${userName}> ${messageText}`, {
