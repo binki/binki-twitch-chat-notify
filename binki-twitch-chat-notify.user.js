@@ -1,3 +1,12 @@
+// ==UserScript==
+// @name     binki-twitch-chat-notify
+// @version  1.0
+// @grant    none
+// @author   Nathan Phillip Brink (binki) (@ohnobinki)
+// @homepageURL https://github.com/binki/binki-twitch-chat-notify/
+// @include  https://www.twitch.tv/*
+// @include  https://twitch.tv/*
+// ==/UserScript==
 (async () => {
   if (!(await window.Notification.requestPermission()) === 'granted') {
     return;
@@ -76,4 +85,8 @@
   };
   registerHandlerWithCleanup(window.document, 'blur', () => isBlurred = true);
   registerHandlerWithCleanup(window.document, 'focus', () => isBlurred = false);
+<<<<<<< Updated upstream
 })();
+=======
+})();
+>>>>>>> Stashed changes
