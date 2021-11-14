@@ -8,7 +8,7 @@
 // @include  https://twitch.tv/*
 // ==/UserScript==
 (async () => {
-  if (!(await window.Notification.requestPermission()) === 'granted') {
+  if (await window.Notification.requestPermission() !== 'granted') {
     return;
   }
   const target = document.querySelector('*[data-test-selector=chat-scrollable-area__message-container]');
