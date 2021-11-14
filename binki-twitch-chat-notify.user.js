@@ -85,8 +85,4 @@
   };
   registerHandlerWithCleanup(window.document, 'blur', () => isBlurred = true);
   registerHandlerWithCleanup(window.document, 'focus', () => isBlurred = false);
-<<<<<<< Updated upstream
 })();
-=======
-})();
->>>>>>> Stashed changes
