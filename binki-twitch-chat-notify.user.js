@@ -11,7 +11,25 @@
   if (await window.Notification.requestPermission() !== 'granted') {
     return;
   }
-  const target = document.querySelector('*[data-test-selector=chat-scrollable-area__message-container]');
+  const target = await (async () => {
+    while (true) {
+      const target = document.querySelector('*[data-test-selector=chat-scrollable-area__message-container]');
+      // In mod view, the components of the page load lazily. So wait for the chat area to show up.
+      // On normal pages, by the time our script runs, the necessary element is already created, so this
+      // isn‘t necessary.
+      if (target) return target;
+      await new Promise(resolve => {
+        const waitObserver = new MutationObserver(mutations => {
+          waitObserver.disconnect();
+          resolve();
+        });
+        waitObserver.observe(document.body, {
+          childList: true,
+          subtree: true,
+        });
+      });
+    }
+  })();
   let lastSeenText = '';
   let isBlurred = false;
   const mo = new MutationObserver(mutations => {
