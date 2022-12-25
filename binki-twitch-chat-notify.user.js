@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     binki-twitch-chat-notify
-// @version  1.4
+// @version  1.5
 // @grant    none
 // @author   Nathan Phillip Brink (binki) (@ohnobinki)
 // @homepageURL https://github.com/binki/binki-twitch-chat-notify/
