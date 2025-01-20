@@ -37,9 +37,10 @@
       for (const mutation of mutations) {
         switch (mutation.type) {
           case 'childList': {
-            const lineElement = target.lastChild;
-            const currentText = lineElement.textContent;
-            if (lineElement.matches('.chat-line__message') && currentText !== lastSeenText) {
+            const lineElement = target.lastChild.querySelector('.chat-line__message');
+            const currentText = lineElement ? lineElement.textContent : undefined;
+            if (lineElement && currentText !== lastSeenText) {
+              console.log('line message');
               lastSeenText = currentText;
               // Some people might claim that document.hidden is sufficient. However, with my workflow,
               // I never minimize windows even if they are not actually visible to me. So I need to use
