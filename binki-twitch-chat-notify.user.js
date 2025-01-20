@@ -6,30 +6,16 @@
 // @homepageURL https://github.com/binki/binki-twitch-chat-notify/
 // @include  https://www.twitch.tv/*
 // @include  https://twitch.tv/*
+// @require https://github.com/binki/binki-userscript-when-element-query-selector-async/raw/0a9c204bdc304a9e82f1c31d090fdfdf7b554930/binki-userscript-when-element-query-selector-async.js
 // ==/UserScript==
 (async () => {
   if (await window.Notification.requestPermission() !== 'granted') {
     return;
   }
-  const target = await (async () => {
-    while (true) {
-      const target = document.querySelector('*[data-test-selector=chat-scrollable-area__message-container]');
-      // In mod view, the components of the page load lazily. So wait for the chat area to show up.
-      // On normal pages, by the time our script runs, the necessary element is already created, so this
-      // isn‘t necessary.
-      if (target) return target;
-      await new Promise(resolve => {
-        const waitObserver = new MutationObserver(mutations => {
-          waitObserver.disconnect();
-          resolve();
-        });
-        waitObserver.observe(document.body, {
-          childList: true,
-          subtree: true,
-        });
-      });
-    }
-  })();
+  // In mod view, the components of the page load lazily. So wait for the chat area to show up.
+  // On normal pages, by the time our script runs, the necessary element is already created, so this
+  // isn‘t necessary.
+  const target = await whenElementQuerySelectorAsync(document.body, '*[data-test-selector=chat-scrollable-area__message-container]');
   let lastSeenText = '';
   let isBlurred = false;
   const mo = new MutationObserver(mutations => {
