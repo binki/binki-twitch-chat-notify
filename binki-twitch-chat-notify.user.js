@@ -1,11 +1,10 @@
 // ==UserScript==
-// @name     binki-twitch-chat-notify
-// @version  1.5.1
-// @grant    none
-// @author   Nathan Phillip Brink (binki) (@ohnobinki)
+// @name binki-twitch-chat-notify
+// @version 1.5.1
+// @author Nathan Phillip Brink (binki) (@ohnobinki)
 // @homepageURL https://github.com/binki/binki-twitch-chat-notify/
-// @include  https://www.twitch.tv/*
-// @include  https://twitch.tv/*
+// @include https://www.twitch.tv/*
+// @include https://twitch.tv/*
 // @require https://github.com/binki/binki-userscript-when-element-query-selector-async/raw/0a9c204bdc304a9e82f1c31d090fdfdf7b554930/binki-userscript-when-element-query-selector-async.js
 // ==/UserScript==
 (async () => {
