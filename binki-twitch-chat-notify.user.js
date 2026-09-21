@@ -6,10 +6,18 @@
 // @include https://www.twitch.tv/*
 // @include https://twitch.tv/*
 // @require https://github.com/binki/binki-userscript-when-element-query-selector-async/raw/0a9c204bdc304a9e82f1c31d090fdfdf7b554930/binki-userscript-when-element-query-selector-async.js
+// @require https://github.com/binki/binki-userscript-when-event-dispatched-async/raw/refs/heads/master/binki-userscript-when-event-dispatched-async.js
 // ==/UserScript==
 (async () => {
-  if (await window.Notification.requestPermission() !== 'granted') {
-    return;
+  while (window.Notification.permission !== 'granted') {
+    const b = document.createElement('button');
+    b.setAttribute('style', 'position: absolute; z-index: 1001; background: rgba(0,0,0,0.5);');
+    b.textContent = 'Enable Notifications';
+    b.title = 'Necessary for function of binki-twitch-chat-notify.';
+    document.body.append(b);
+    await whenEventDispatchedAsync(b, 'click');
+    b.remove();
+    await window.Notification.requestPermission();
   }
   // In mod view, the components of the page load lazily. So wait for the chat area to show up.
   // On normal pages, by the time our script runs, the necessary element is already created, so this
